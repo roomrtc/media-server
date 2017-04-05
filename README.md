@@ -15,7 +15,7 @@ Follow these steps to run the server:
 Install via npm:
 
 ```bash
-npm install @roomrtc/media
+npm install @roomrtc/mediaserver
 ```
 
 # License
