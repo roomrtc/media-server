@@ -22,7 +22,7 @@
 
                 var room = $scope.room = (location.search && location.search.split('?')[1]) || "demo";
                 var roomRTC = new RoomRTC({
-                    url: 'http://localhost:8123',
+                    url: '/',
                     connectMediaServer: true
                 });
 
@@ -71,7 +71,19 @@
 
                 roomRTC.on('readyToJoinMediaServer', id => {
                     $scope.isConnected = true;
-                    joinMediaServer(room);
+                    // joinMediaServer(room);
+                    roomRTC.joinRoom(room)
+                        .then(roomData => {
+                            console.log("joinRoom ok: ", roomData);
+                            $timeout(function () {
+                                $scope.isConnected = true;
+                                $scope.clients = roomData.clients;
+                                return joinMediaServer(room);
+                            }, 3000);
+                        })
+                        .catch(err => {
+                            console.error("joinRoom error: ", err);
+                        });
                 });
 
                 roomRTC.on("videoAdded", function (pc, stream) {

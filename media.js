@@ -15,6 +15,7 @@ module.exports = class MediaRoom extends RoomrtcServer {
 
         this.logger = logger;
         this.mediaServer = null;
+        this.mediaRooms = {};
         this.peers = {};
 
         // setup events listener
@@ -38,8 +39,8 @@ module.exports = class MediaRoom extends RoomrtcServer {
      * Get room by name
      * @param {String} name Name of the room
      */
-    getRoom(name) {
-        return this.rooms[name];
+    getMediaRoom(name) {
+        return this.mediaRooms[name];
     }
 
     /**
@@ -47,8 +48,8 @@ module.exports = class MediaRoom extends RoomrtcServer {
      * @param {String} name Name of the room
      * @param {MediaRoom} mediaRoom 
      */
-    setRoom(name, mediaRoom) {
-        this.rooms[name] = mediaRoom;
+    setMediaRoom(name, mediaRoom) {
+        this.mediaRooms[name] = mediaRoom;
         return mediaRoom;
     }
 
@@ -57,6 +58,7 @@ module.exports = class MediaRoom extends RoomrtcServer {
      * @param {String} id 
      */
     getPeer(id) {
+        this.logger.info('getPeer, id:', id);
         return this.peers[id];
     }
 
@@ -66,6 +68,7 @@ module.exports = class MediaRoom extends RoomrtcServer {
      * @param {MediaPeer} peer 
      */
     setPeer(id, peer) {
+        this.logger.info('setPeer, id:', id);
         this.peers[id] = peer;
     }
 
@@ -75,7 +78,8 @@ module.exports = class MediaRoom extends RoomrtcServer {
      * @param {Socket} socket
      */
     createPeer(mediaRoom, socket) {
-        let client = this.getPeer(socket.id);
+        let id = socket.id;
+        let client = this.getPeer(id);
         this.cleanPeer(client);
 
         let peer = mediaRoom.Peer(id);
@@ -84,10 +88,11 @@ module.exports = class MediaRoom extends RoomrtcServer {
             mediaPeer: peer,
             socket: socket
         });
+        return mediaPeer;
     }
 
     cleanPeer(client) {
-        let peer = this.getPeer(client.id);
+        let peer = this.getPeer(client && client.id);
         if (!peer) {
             return;
         }
@@ -131,25 +136,27 @@ module.exports = class MediaRoom extends RoomrtcServer {
         this.logger.info('Client request to join room: ', client.id, roomName);
 
         // Create new peer and join room
-        Promise.resolve(1)
+        return Promise.resolve(1)
             .then(() => {
-                let mediaRoom = this.getRoom(roomName);
+                let mediaRoom = this.getMediaRoom(roomName);
                 if (!mediaRoom) {
                     let options = config.get('roomOptions');
                     // create new media room
                     return this.mediaServer.createRoom(options)
                         .then(roomCreated => {
-                            this.setRoom(roomName, roomCreated);
+                            // this.logger.info('Create room success: ', roomCreated);
+                            this.setMediaRoom(roomName, roomCreated);
                             return roomCreated;
                         });
                 } else {
+                    // this.logger.info('Room created already: ', mediaRoom);
                     return mediaRoom;
                 }
             })
             .then(mediaRoom => {
                 let capabilities = config.get('peerCapabilities');
                 let peer = this.createPeer(mediaRoom, client);
-                peer.setCapabilities(capabilities);
+                peer.mediaPeer.setCapabilities(capabilities);
                 this.setPeer(client.id, peer);
             })
             .catch(err => {
@@ -166,7 +173,7 @@ module.exports = class MediaRoom extends RoomrtcServer {
         this.logger.info('Client send a message: ', client.id, msg && msg.type);
 
         let peer = this.getPeer(client.id);
-        peer.processMsg(msg);
+        peer.processMessage(msg);
     }
 
     /**
