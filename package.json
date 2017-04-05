@@ -1,5 +1,5 @@
 {
-  "name": "@roomrtc/media",
+  "name": "@roomrtc/mediaserver",
   "version": "0.9.1",
   "description": "A simple media server for RoomRTC",
   "main": "media.js",
@@ -33,7 +33,7 @@
     "express": "^4.14.1",
     "express-session": "^1.15.1",
     "mediasoup": "0.3.0-pre4",
-    "roomrtc": "^0.11.0",
+    "roomrtc": "^0.11.1",
     "uuid": "^3.0.1"
   }
 }
