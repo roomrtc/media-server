@@ -17,9 +17,9 @@ module.exports = function (grunt) {
                     src: ['__*.json', 'config/__*.json'],
                     dest: './',
                     rename: function (dest, src) {
-                        grunt.log.writeln('Preparing rename: ' + src);
+                        grunt.log.writeln('Preparing copy: ' + src);
                         let newFile = dest + src.replace(/(__)(.+[.]json)$/, '$2');
-                        grunt.log.writeln('New file name: ' + newFile);
+                        grunt.log.writeln('Please consider to config: ' + newFile);
                         return newFile;
                     },
                     // Copy if file does not exist.
