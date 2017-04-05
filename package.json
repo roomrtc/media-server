@@ -1,0 +1,39 @@
+{
+  "name": "@roomrtc/media",
+  "version": "0.9.1",
+  "description": "A simple media server for RoomRTC",
+  "main": "media.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/roomrtc/mediaserver.git"
+  },
+  "keywords": [
+    "media-server",
+    "roomrtc",
+    "webrtc"
+  ],
+  "author": "vunb",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/roomrtc/mediaserver/issues"
+  },
+  "homepage": "https://github.com/roomrtc/mediaserver#readme",
+  "dependencies": {
+    "winston": "^2.3.1",
+    "body-parser": "^1.16.1",
+    "cookie-parser": "^1.4.3",
+    "ejs": "^2.5.6",
+    "express": "^4.14.1",
+    "express-session": "^1.15.1",
+    "mediasoup": "0.3.0-pre4",
+    "roomrtc": "^0.11.0",
+    "uuid": "^3.0.1"
+  }
+}
