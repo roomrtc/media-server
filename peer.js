@@ -40,14 +40,16 @@ module.exports = class Peer {
             this._handleMsgAnswer(msg);
         } else if (msg.type === 'bye') {
             this.logger.info('Bye from client ?')
+        } else if (/^ice/.test(msg.type)) {
+            this.logger.info('Do not process ice message', msg.type);
         } else {
             this.logger.info('Unknow message:', msg.type, msg);
         }
     }
 
-    sendSDPReOffer(description) {
+    sendSdpToPeer(description) {
         let pid = this.id;
-        let sid = socket.sid || Date.now().toString();
+        let sid = this.socket.sid || Date.now().toString();
         let msg = {
             from: pid,
             sid: sid,
@@ -63,7 +65,7 @@ module.exports = class Peer {
         this.socket.emit('message', msg);
     }
 
-    sendSDPOffer(pc) {
+    sendSdpOffer(pc) {
         return pc.createOffer()
             .then(desc => {
                 this.logger.info('pc.setLocalDescription(desc); ....');
@@ -71,7 +73,7 @@ module.exports = class Peer {
             })
             .then(() => {
                 this.logger.info('re-offer to id=', id);
-                this.sendSDPReOffer(pc.localDescription);
+                this.sendSdpToPeer(pc.localDescription);
             })
             .catch(err => {
                 this.loger.error('error handling SDP re-offer to participant: ', err);
@@ -89,7 +91,7 @@ module.exports = class Peer {
 
         pc.on('negotiationneeded', () => {
             this.logger.info('negotiationneeded sendSdpOffer back:', pid);
-            this.sendSDPOffer(pc);
+            this.sendSdpOffer(pc);
         });
 
         pc.setRemoteDescription(desc)
@@ -101,7 +103,7 @@ module.exports = class Peer {
                 return pc.setLocalDescription(desc);
             })
             .then(() => {
-                this.sendSDPReOffer(pc.localDescription);
+                this.sendSdpToPeer(pc.localDescription);
             })
             .catch(err => {
                 this.logger.error("error handling SDP offer from participant: %s", err);
