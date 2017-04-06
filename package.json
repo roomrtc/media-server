@@ -4,7 +4,7 @@
   "description": "A simple media server for RoomRTC",
   "main": "media.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node test/start.js | tap-spec",
     "start": "node server.js",
     "postinstall": "grunt setup",
     "setup": "grunt setup"
@@ -42,6 +42,9 @@
   },
   "devDependencies": {
     "grunt": "^1.0.1",
-    "grunt-contrib-copy": "^1.0.0"
+    "grunt-contrib-copy": "^1.0.0",
+    "supertest": "^2.0.1",
+    "tap-spec": "^4.1.1",
+    "tape": "^4.6.3"
   }
 }
