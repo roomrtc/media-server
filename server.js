@@ -56,3 +56,6 @@ media.listen(server);
 server.listen(port, () => {
     logger.info('Server is running at: ', port);
 });
+
+// Expose RoomMedia Server for testing.
+module.exports = media;

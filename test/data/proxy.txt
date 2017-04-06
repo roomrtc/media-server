@@ -1,0 +1,3 @@
+http-server -S -P http://192.168.207.131:8123 -C test\data\dtls-cert.pem -K test\data\dtls-key.pem
+Test ==> https://localhost:8080/index.html?abc
+Ref  ::  https://www.npmjs.com/package/http-server
