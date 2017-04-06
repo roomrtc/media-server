@@ -98,7 +98,7 @@ module.exports = class Peer {
                 this.sendSdpToPeer(this.pc.localDescription);
             })
             .catch(err => {
-                this.logger.error('error handling SDP re-offer to participant: ', err);
+                this.logger.error('sendSdpToPeer error:', err);
             });
     }
 
@@ -110,10 +110,26 @@ module.exports = class Peer {
         });
 
         // Participant is required to join the mediaRoom by providing a capabilities SDP.
-        return this.pc.setCapabilities(msg.payload.sdp)
+        return Promise.resolve(1)
             .then(() => {
-                this.logger.info('setCapabilities ok !')
-                return this.sendSdpOffer();
+                let needToSendSdpToPeer = false;
+                if (!this.hasCapabilities) {
+                    return this.pc.setCapabilities(msg.payload.sdp)
+                        .then(() => {
+                            this.logger.info('pc.setCapabilities(sdp) ok');
+                            this.hasCapabilities = true;
+                            needToSendSdpToPeer = true;
+                            return needToSendSdpToPeer;
+                        });
+                } else {
+                    this.logger.info('pc.setCapabilities(sdp) already !');
+                    return needToSendSdpToPeer;
+                }
+            })
+            .then((needToSendSdpToPeer) => {
+                if (needToSendSdpToPeer) {
+                    this.sendSdpOffer();
+                }
             })
             .catch(err => {
                 this.logger.error('_handleMsgOffer, pc.setCapabilities error:', err);
