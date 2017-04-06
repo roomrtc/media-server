@@ -23,6 +23,11 @@ module.exports = class Peer {
         return this.socket && this.socket.id;
     }
 
+    createPeerConnection(options) {
+        this.pc = new RTCPeerConnection(options);
+        return this.pc;
+    }
+
     /**
      * Process RoomRTC message
      * @param {Object} msg

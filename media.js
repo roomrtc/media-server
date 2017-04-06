@@ -70,6 +70,7 @@ module.exports = class MediaRoom extends RoomrtcServer {
     setPeer(id, peer) {
         this.logger.info('setPeer, id:', id);
         this.peers[id] = peer;
+        return peer;
     }
 
     /**
@@ -82,13 +83,13 @@ module.exports = class MediaRoom extends RoomrtcServer {
         let client = this.getPeer(id);
         this.cleanPeer(client);
 
-        let peer = mediaRoom.Peer(id);
-        let mediaPeer = new Peer({
+        let mediaPeer = mediaRoom.Peer(id);
+        let peer = new Peer({
             mediaRoom: mediaRoom,
-            mediaPeer: peer,
+            mediaPeer: mediaPeer,
             socket: socket
         });
-        return mediaPeer;
+        return peer;
     }
 
     cleanPeer(client) {
