@@ -9,14 +9,33 @@ module.exports = class Peer {
     constructor(options) {
         // set peer required options.
         this.options = options || {};
-        this.mediaRoom = options['mediaRoom'];
-        this.mediaPeer = options['mediaPeer'];
-        this.socket = options['socket'];
+
+        // field members
+        this.mediaRoom = this.options['mediaRoom'];
+        this.mediaPeer = this.options['mediaPeer'];
+        this.socket = this.options['socket'];
         this.pc = null;
+
+        // default config
+        this.config = {
+            peerConnectionOptions: {
+                peer: this.mediaPeer,
+                usePlanB: true
+            }
+        }
+
+        // override default config
+        for (let opt in this.config) {
+            if (this.options.hasOwnProperty(opt)) {
+                this.config[opt] = this.options[opt];
+            }
+        }
 
         // config log
         this.logger = require('./logger')(`Peer ${this.id}`);
         this.close = this.mediaPeer.close.bind(this.mediaPeer);
+
+        this.createPeerConnection(this.config.peerConnectionOptions);
     }
 
     get id() {

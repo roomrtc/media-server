@@ -92,18 +92,17 @@ module.exports = class MediaRoom extends RoomrtcServer {
         return peer;
     }
 
-    cleanPeer(client) {
-        let peer = this.getPeer(client && client.id);
+    cleanPeer(peer) {
         if (!peer) {
             return;
         }
 
         // Clean up
-        this.logger.info('Close peer connection', client.id);
+        this.logger.info('Close peer connection', peer.id);
         peer.close();
 
         // remove from properties
-        delete this.peers[client.id];
+        delete this.peers[peer.id];
     }
 
     /**
@@ -157,7 +156,7 @@ module.exports = class MediaRoom extends RoomrtcServer {
             .then(mediaRoom => {
                 let capabilities = config.get('peerCapabilities');
                 let peer = this.createPeer(mediaRoom, client);
-                peer.mediaPeer.setCapabilities(capabilities);
+                // peer.mediaPeer.setCapabilities(capabilities);
                 this.setPeer(client.id, peer);
             })
             .catch(err => {
