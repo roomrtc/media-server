@@ -1,0 +1,27 @@
+{
+  "name": "@roomrtc/mediaserver",
+  "description": "A simple media server for RoomRTC",
+  "main": "media.js",
+  "authors": [
+    "vunb"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "media-server",
+    "roomrtc",
+    "webrtc"
+  ],
+  "homepage": "https://github.com/roomrtc/mediaserver",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "www/lib",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "roomrtc": "^0.11.1"
+  }
+}
