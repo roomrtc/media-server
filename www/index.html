@@ -10,8 +10,8 @@
     <link href="css/style.css" rel="stylesheet" type="text/css">
     <link href="data:image/png;base64,iVBORw0KGgo=" rel="icon" type="image/png">
     <!-- load appjs -->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
-    <script src="https://bowercdn.net/c/roomrtc-0.11.0/dist/roomrtc.min.js"></script>
+    <script src="lib/roomrtc/dist/angular-v1.4.9.js"></script>
+    <script src="lib/roomrtc/dist/roomrtc.bundle.js"></script>
     <script type="text/javascript">
         angular.module("roomrtc", [])
             .controller("roomController", function ($scope, $timeout, $sce) {
@@ -26,20 +26,7 @@
                     connectMediaServer: true
                 });
 
-                roomRTC.initMediaSource()
-                    .then(stream => {
-                        var streamUrl = roomRTC.getStreamAsUrl(stream);
-                        $timeout(function () {
-                            $scope.localVideo = $sce.trustAsResourceUrl(streamUrl);
-                            joinMediaServer(room);
-                        });
-                    });
-
                 function joinMediaServer(room) {
-                    if (!$scope.localVideo || !$scope.isConnected) {
-                        // wait for ready.
-                        return;
-                    }
                     roomRTC.joinMediaServer(room)
                         .then(data => {
                             console.log('joinMediaServer ok!', data);
@@ -50,36 +37,23 @@
                 }
 
                 roomRTC.on("connected", function (id) {
-                    console.log("connected connectionId: ", id);
-                });
-
-                roomRTC.on("readyToCall", function (id) {
-                    console.log("readyToCall, connectionId: ", id);
-                    roomRTC.joinRoom(room)
-                        .then(roomData => {
-                            console.log("joinRoom ok: ", roomData);
-                            $timeout(function () {
-                                $scope.isConnected = true;
-                                $scope.clients = roomData.clients;
-                            });
-                            return roomData.clients;
-                        })
-                        .catch(err => {
-                            console.error("joinRoom error: ", err);
-                        });
-                });
-
-                roomRTC.on('readyToJoinMediaServer', id => {
                     $scope.isConnected = true;
-                    // joinMediaServer(room);
-                    roomRTC.joinRoom(room)
-                        .then(roomData => {
-                            console.log("joinRoom ok: ", roomData);
+                    console.log("connected connectionId: ", id);
+                    roomRTC.initMediaSource()
+                        .then(stream => {
+                            var streamUrl = roomRTC.getStreamAsUrl(stream);
+                            $timeout(function () {
+                                $scope.localVideo = $sce.trustAsResourceUrl(streamUrl);
+                                // joinMediaServer(room);
+                            });
+                            return roomRTC.joinRoom(room);
+                        })
+                        .then((roomData) => {
                             $timeout(function () {
                                 $scope.isConnected = true;
                                 $scope.clients = roomData.clients;
                                 return joinMediaServer(room);
-                            }, 3000);
+                            });
                         })
                         .catch(err => {
                             console.error("joinRoom error: ", err);
@@ -87,7 +61,7 @@
                 });
 
                 roomRTC.on("videoAdded", function (pc, stream) {
-                    var pid = (pc.id || pc.sid) + stream.id;
+                    var pid = (pc.id || pc.sid) + ((stream && stream.id) || "_stream");
                     console.log("Ohh, we have a new participant", pid);
                     $timeout(function () {
                         var streamUrl = roomRTC.getStreamAsUrl(stream);
@@ -98,7 +72,7 @@
                 });
 
                 roomRTC.on("videoRemoved", function (pc) {
-                    var pid = (pc.id || pc.sid) + pc.stream.id;
+                    var pid = (pc.id || pc.sid) + ((pc.stream && pc.stream.id) || "_stream");
                     var url = $scope.remoteVideos[pid];
                     roomRTC.revokeObjectURL(url);
                     console.log("Ohh, a participant has gone", pid);
