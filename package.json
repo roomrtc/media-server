@@ -35,7 +35,7 @@
     "express": "^4.14.1",
     "express-session": "^1.15.1",
     "matchdep": "^1.0.1",
-    "mediasoup": "0.8.4",
+    "mediasoup": "1.1.0",
     "roomrtc": "^0.11.1",
     "uuid": "^3.0.1",
     "winston": "^2.3.1"
