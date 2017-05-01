@@ -15,7 +15,7 @@ module.exports = class MediaRoom extends RoomrtcServer {
 
         this.logger = logger;
         this.mediaServer = null;
-        this.mediaRooms = {};
+        this.mediaRooms = new Map();
         this.peers = {};
 
         // setup events listener
@@ -32,6 +32,10 @@ module.exports = class MediaRoom extends RoomrtcServer {
             let settings = config.get('mediaServerSettings');
             // init media server
             this.mediaServer = mediasoup.Server(settings);
+            this.mediaServer.on('newroom', mediaRoom => {
+                // A new room is created
+                this.logger.info('A new media room is created');
+            });
         }
     }
 
@@ -40,7 +44,7 @@ module.exports = class MediaRoom extends RoomrtcServer {
      * @param {String} name Name of the room
      */
     getMediaRoom(name) {
-        return this.mediaRooms[name];
+        return this.mediaRooms.get(name);
     }
 
     /**
@@ -49,7 +53,7 @@ module.exports = class MediaRoom extends RoomrtcServer {
      * @param {MediaRoom} mediaRoom 
      */
     setMediaRoom(name, mediaRoom) {
-        this.mediaRooms[name] = mediaRoom;
+        this.mediaRooms.set(name, mediaRoom);
         return mediaRoom;
     }
 
@@ -125,6 +129,9 @@ module.exports = class MediaRoom extends RoomrtcServer {
     onClientLeave(client) {
         this.logger.info('A client leave: ', client.id);
 
+        let pid = client.id;
+        let peer = this.getPeer(pid);
+        this.cleanPeer(peer);
     }
 
     /**
