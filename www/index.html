@@ -36,6 +36,11 @@
                         });
                 }
 
+                roomRTC.on("readyToCall", function (id) {
+                    console.log("readyToCall, connectionId: ", id);
+                    return joinMediaServer(room);
+                });
+
                 roomRTC.on("connected", function (id) {
                     $scope.isConnected = true;
                     console.log("connected connectionId: ", id);
@@ -52,7 +57,7 @@
                             $timeout(function () {
                                 $scope.isConnected = true;
                                 $scope.clients = roomData.clients;
-                                return joinMediaServer(room);
+                                // return joinMediaServer(room);
                             });
                         })
                         .catch(err => {
@@ -60,14 +65,21 @@
                         });
                 });
 
+                roomRTC.on("peerCreated", function(peer) {
+                    $timeout(function () {
+                        $scope.clients[peer.id] = peer.resources;
+                    })
+                });
+
                 roomRTC.on("videoAdded", function (pc, stream) {
-                    var pid = (pc.id || pc.sid) + ((stream && stream.id) || "_stream");
-                    console.log("Ohh, we have a new participant", pid);
+                    // var pid = (pc.id || pc.sid) + ((stream && stream.id) || "_stream");
+                    var sid = stream.id;
+                    console.log("Ohh, we have a new participant", sid);
                     $timeout(function () {
                         var streamUrl = roomRTC.getStreamAsUrl(stream);
                         var trustUrl = $sce.trustAsResourceUrl(streamUrl);
-                        $scope.remoteVideos[pid] = trustUrl;
-                        $scope.clients[pid] = pc.resources;
+                        $scope.remoteVideos[sid] = trustUrl;
+                        // $scope.clients[pid] = pc.resources;
                     })
                 });
 
