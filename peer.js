@@ -60,7 +60,7 @@ module.exports = class Peer {
         } else if (msg.type === 'bye') {
             this.logger.info('Bye from client ?')
         } else if (/^ice/.test(msg.type)) {
-            this.logger.info('Do not process ice message', msg.type);
+            // this.logger.info('Do not process ice message', msg.type);
         } else {
             this.logger.info('Unknow message:', msg.type, msg);
         }
@@ -84,11 +84,8 @@ module.exports = class Peer {
         this.socket.emit('message', msg);
     }
 
-    sendSdpOffer() {
-        return this.pc.createOffer({
-                offerToReceiveAudio: 1,
-                offerToReceiveVideo: 1
-            })
+    sendSdpOffer(options) {
+        return this.pc.createOffer(options)
             .then(desc => {
                 this.logger.info('pc.setLocalDescription(desc); ....');
                 return this.pc.setLocalDescription(desc);
@@ -105,31 +102,18 @@ module.exports = class Peer {
     _handleMsgOffer(msg) {
 
         this.pc.on('negotiationneeded', () => {
-            this.logger.info('negotiationneeded sendSdpOffer back:', this.id);
+            this.logger.info('negotiationneeded send SDP re-offer:', this.id);
             this.sendSdpOffer();
         });
 
         // Participant is required to join the mediaRoom by providing a capabilities SDP.
-        return Promise.resolve(1)
+        return this.pc.setCapabilities(msg.payload.sdp)
             .then(() => {
-                let needToSendSdpToPeer = false;
-                if (!this.hasCapabilities) {
-                    return this.pc.setCapabilities(msg.payload.sdp)
-                        .then(() => {
-                            this.logger.info('pc.setCapabilities(sdp) ok');
-                            this.hasCapabilities = true;
-                            needToSendSdpToPeer = true;
-                            return needToSendSdpToPeer;
-                        });
-                } else {
-                    this.logger.info('pc.setCapabilities(sdp) already !');
-                    return needToSendSdpToPeer;
-                }
-            })
-            .then((needToSendSdpToPeer) => {
-                if (needToSendSdpToPeer) {
-                    this.sendSdpOffer();
-                }
+                this.logger.info('pc.setCapabilities(sdp) ok');
+                this.sendSdpOffer({
+                    offerToReceiveAudio: 1,
+                    offerToReceiveVideo: 1
+                });
             })
             .catch(err => {
                 this.logger.error('_handleMsgOffer, pc.setCapabilities error:', err);

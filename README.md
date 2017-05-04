@@ -4,6 +4,11 @@ A simple media server for RoomRTC
 
 # Run roomrtc media as your own server
 
+The program requires the following dependencies (easy to install using `npm`)
+
+* [roomrtc](https://github.com/vunb/roomrtc)
+* [mediasoup](https://github.com/ibc/mediasoup)
+
 Follow these steps to run the server:
 
 * Clone repo: `git clone https://github.com/roomrtc/mediaserver.git roomrtc-media-server`
