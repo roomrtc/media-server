@@ -1,6 +1,6 @@
 {
   "name": "@roomrtc/mediaserver",
-  "version": "0.9.1",
+  "version": "0.11.0",
   "description": "A simple media server for RoomRTC",
   "main": "media.js",
   "scripts": {
