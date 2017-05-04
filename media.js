@@ -165,6 +165,7 @@ module.exports = class MediaRoom extends RoomrtcServer {
                 let peer = this.createPeer(mediaRoom, client);
                 // peer.mediaPeer.setCapabilities(capabilities);
                 this.setPeer(client.id, peer);
+                client.emit('ready', 'join me');
             })
             .catch(err => {
                 this.logger.error('Create mediaRoom error', err);
