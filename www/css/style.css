@@ -1,0 +1,15 @@
+body {
+    height: 100%;
+    margin: 0;
+}
+
+a {
+  color: #00b7ff;
+}
+div.bhr {
+  border-bottom: 1px solid #e6eaed;
+}
+input, button, select, textarea {
+    font-family: inherit;
+    font-size: 100%;
+}

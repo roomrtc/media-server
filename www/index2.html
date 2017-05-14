@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="RoomRTC dev tests">
+    <title>RoomRTC dev tests</title>
+    <!-- load appcss -->
+    <link href="https://bowercdn.net/c/roomrtc-latest/dist/bootstrap-v3.3.7.css" rel="stylesheet" type="text/css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link href="data:image/png;base64,iVBORw0KGgo=" rel="icon" type="image/png">
+    <!-- load appjs -->
+    <script src="/lib/eyes.js"></script>
+    <script src="/lib/roomrtc/dist/angular-v1.4.9.js"></script>
+    <script src="/lib/roomrtc/dist/roomrtc.bundle.js"></script>
+    <!-- load appscripts -->
+    <script src="/js/app.js"></script>
+    <script src="/js/directives/videoControls.js"></script>
+    <script src="/js/services/util.js"></script>
+    <script src="/js/services/fluidGrid.js"></script>
+    <script src="/js/services/soundEffectManager.js"></script>
+    <script src="/js/controllers/roomController.js"></script>
+
+</head>
+
+<body ng-app="videoconference" ng-controller="roomController">
+    <div class="row">
+        <div class="col-xs-6">
+            <h1 ng-if="!isConnected">Connecting to: <span ng-bind="room">demo</span>...</h1>
+            <h1 ng-if="isConnected">You are in room: <span ng-bind="room">demo</span></h1>
+            <video class="mirror" id="localVideo" width="300" height="200" ng-src="{{localVideo}}" ng-muted="true" resize autoplay="true"
+                ng-context-menu-disabled="true"></video>
+            <div class="media-controls">
+                <input type="button" value="Stop" ng-click="stop()">&nbsp;
+                <input type="button" value="Start" ng-click="start()">
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <h4>Display list clients</h4>
+            <ul>
+                <li ng-repeat="(id, client) in clients">{{ $index + 1 }}: [{{ id }},{{ client.name }}]</li>
+            </ul>
+        </div>
+    </div>
+    <div id="remotes">
+        <div class="video" ng-repeat="(id, remoteVideo) in remoteVideos">
+            <video id="{{id}}" ng-src="{{remoteVideo}}" resize autoplay="true"></video>
+        </div>
+    </div>
+</body>
+
+</html>

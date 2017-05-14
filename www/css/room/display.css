@@ -1,0 +1,73 @@
+.videoContainer {
+    position: fixed;
+    top: 65px;
+    left: 1em; /*16px*/
+    z-index: 10;
+}
+
+#game,
+#viewport {
+    position: fixed;
+    display: block;
+    z-index: -1;
+    width: 100%;
+    top: 50px;
+    bottom: -20px;
+}
+#remotes {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 65px;
+    -webkit-perspective: 2000px;
+    -moz-perspective: 2000px;
+    z-index: 1;
+    text-align: center;
+}
+
+.videocontainer {
+    position: absolute;
+    box-shadow: 0 0 0 1px #e6eaed;
+}
+.videocontainer.focusable:hover,
+.videocontainer.focused:hover {
+    cursor: pointer;
+    box-shadow: 0 0 0 3px #12acef;
+    transition: all 0.3s ease;
+}
+.videocontainer > div {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    background: #fafbfb;
+}
+.videocontainer video {
+    position: absolute;
+    left: 0px;
+    width: 100%;
+}
+.videocontainer .connectioninfo {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+}
+.videocontainer .connectionstate {
+    margin: 0 0 10px;
+}
+.videocontainer .muted,
+.videocontainer .paused {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    color: #12acef;
+}
+.videocontainer .muted {
+    left: 0px;
+    bottom: 10%;
+    width: 100%;
+}
+.videocontainer .paused {
+    left: 0px;
+    top: 40%;
+    width: 100%;
+}

@@ -1,0 +1,3 @@
+a:focus, *:focus {
+    outline:0; /*removes the dotted border*/
+}

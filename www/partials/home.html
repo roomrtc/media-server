@@ -1,0 +1,23 @@
+<article id="pages" class="cloud-background">
+    <section role="main" class="page create">
+        <div class="room43 home">
+            <div><a href="/" title="Hello !" class="sitelogo"><span id="faceGuy"></span></a></div>
+            <div id="createRoom" class="cf">
+                <form ng-submit="createRoom(roomName)">
+                    <p class="guide">Roomrtc - one click video conversations</p><input id="sessionInput" ng-model="roomName" placeholder="Name the conversation"
+                        autofocus="autofocus" type="text"><button ng-disabled="!roomName" type="submit" class="primary large">Let's go!</button></form>
+            </div>
+        </div>
+    </section>
+</article>
+<footer role="contentinfo">
+    <nav>
+        <ul>
+            <li><a ui-sref="about.team" title="About Team">Team</a></li>
+            <li><a ui-sref="about.privacy" title="Legal, Privacy, Contact links">Privacy</a></li>
+            <li><a ui-sref="about.terms" title="Legal, Privacy, Contact links">Terms</a></li>
+            <li><a href="mailto:vunb@nodejs.vn" title="Email us">Email</a></li>
+            <li><a href="//twitter.com/nhubaovu" title="RoomRTC on Twitter">@twitter</a></li>
+        </ul>
+    </nav>
+</footer>
