@@ -6,7 +6,7 @@ const Peer = require('./peer');
 const logger = require('./logger')('Media Room');
 
 const MAX_BITRATE = config.get('roomrtc.maxBitrate') || 3000000;
-const MIN_BITRATE = Math.min(50000 || MAX_BITRATE);
+const MIN_BITRATE = Math.min(50000, MAX_BITRATE);
 const BITRATE_FACTOR = 0.75;
 
 /**
