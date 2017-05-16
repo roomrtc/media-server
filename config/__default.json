@@ -1,4 +1,7 @@
 {
+    "roomrtc": {
+        "maxBitrate": 3000000
+    },
     "mediaServerSettings": {
         "logLevel": "warn",
         "rtcListenIPv4": "127.0.0.1",
