@@ -64,18 +64,18 @@ angular.module("videoconference").controller("roomController", function ($rootSc
         })
     });
 
-    roomRTC.on("peerStreamRemoved", function (peer) {
-        console.log('peerStreamRemoved', peer);
-        let sid = peer.stream.id;
-        $timeout(() => {
-            delete $scope.remoteVideos[sid];
-        })
-    });
+    // roomRTC.on("peerStreamRemoved", function (peer, stream) {
+    //     console.log('peerStreamRemoved', peer.id, stream.id);
+    //     let sid = stream.id;
+    //     $timeout(() => {
+    //         delete $scope.remoteVideos[sid];
+    //     })
+    // });
 
     roomRTC.on("videoAdded", function (pc, stream) {
         // var pid = (pc.id || pc.sid) + ((stream && stream.id) || "_stream");
         var sid = stream.id;
-        console.log("Ohh, we have a new participant", sid);
+        console.log("Ohh, we have a new participant", pc.id, sid);
         $timeout(function () {
             var streamUrl = roomRTC.getStreamAsUrl(stream);
             var trustUrl = $sce.trustAsResourceUrl(streamUrl);
@@ -87,16 +87,19 @@ angular.module("videoconference").controller("roomController", function ($rootSc
 
     });
 
-    roomRTC.on("videoRemoved", function (pc) {
-        var pid = (pc.id || pc.sid) + ((pc.stream && pc.stream.id) || "_stream");
-        var url = $scope.remoteVideos[pid];
+    roomRTC.on("videoRemoved", function (pc, stream) {
+        // var pid = (pc.id || pc.sid) + ((pc.stream && pc.stream.id) || "_stream");
+        var sid = stream.id;
+        var url = $scope.remoteVideos[sid];
         roomRTC.revokeObjectURL(url);
-        console.log("Ohh, a participant has gone", pid);
+        console.log("Ohh, a participant has gone", pc.id, sid);
         $timeout(function () {
             // remove url from remoteVideos
-            delete $scope.remoteVideos[pid];
-            delete $scope.clients[pid];
-        })
+            delete $scope.remoteVideos[sid];
+            // delete $scope.clients[sid];
+        });
+        
+        $timeout(shuffle);
     });
 
     /**
