@@ -6,8 +6,8 @@ A simple media server for RoomRTC
 
 The program requires the following dependencies (easy to install using `npm`)
 
-* [roomrtc](https://github.com/vunb/roomrtc)
-* [mediasoup](https://github.com/ibc/mediasoup)
+* [roomrtc](https://github.com/vunb/roomrtc) - Framework enables quick development of WebRTC
+* [mediasoup](https://github.com/ibc/mediasoup) - Cutting Edge WebRTC Video Conferencing
 
 Follow these steps to run the server:
 
