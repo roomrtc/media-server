@@ -27,8 +27,8 @@ module.exports = class MediaRoom extends RoomrtcServer {
         this.on('leave', this.onClientLeave.bind(this));
         this.on('join', this.onClientJoin.bind(this));
 
-        this.on('message', this.onClientMessage.bind(this));
-        this.on('command', this.onClientCommand.bind(this));
+        this.on('message', this.handleMsgMessage.bind(this));
+        this.on('command', this.handleClientCommand.bind(this));
         // 
         this.logger.info('Config info ', this.config);
 
@@ -198,11 +198,13 @@ module.exports = class MediaRoom extends RoomrtcServer {
      * @param {Socket} client 
      * @param {Object} msg 
      */
-    onClientMessage(client, msg) {
+    handleMsgMessage(client, msg, cb) {
         this.logger.info('Client send a message: ', client.id, msg && msg.type);
 
         let peer = this.getPeer(client.id);
-        peer.processMessage(msg);
+        if (peer != null) {
+            peer.processMessage(msg);
+        }
     }
 
     /**
@@ -210,7 +212,7 @@ module.exports = class MediaRoom extends RoomrtcServer {
      * @param {Socket} client 
      * @param {Object} cmd 
      */
-    onClientCommand(client, cmd) {
+    handleClientCommand(client, cmd) {
         this.logger.info('Client send a command: ', client.id, cmd && cmd.type);
 
     }
