@@ -1,0 +1,119 @@
+/* */
+
+.user-select-enabled {
+    cursor: text !important;
+    -webkit-touch-callout: text;
+    touch-callout: text;
+    -moz-user-select: text;
+    -webkit-user-select: text;
+    user-select: text;
+}
+
+.screen-element.top-bar {
+    z-index: 1000;
+}
+
+.video-space-header {
+    color: #d1d1d1;
+    height: 3.57143em;
+    width: 100%;
+    border-bottom: 1px solid rgba(255, 255, 255, .1);
+    background: url(/images/bg/topbar-bg-overlay.png), rgba(25, 25, 25, .6);
+    transition: height .5s;
+    -webkit-transition: height .5s; /* Safari 3.1 to 6.0 */
+}
+
+.room-wrapper :not(.user-select-enabled) {
+    -webkit-touch-callout: none;
+    touch-callout: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.room-wrapper {
+    display: -webkit-flex; /* Safari */
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.video-space-header > .content-wrapper {
+    width: 100%;
+    height: 3.57143em;
+    display: flex;
+}
+
+.video-space-header .logo {
+    /*display: block;*/
+    /*height: 3.57143em;*/
+    /*min-width: 3.57143em;*/
+    /*width: 3.57143em;*/
+    padding: 10px 1px 10px 20px;
+}
+
+.room-url-wrapper {
+    display: flex;
+}
+
+.room-url-wrapper .room-url {
+    width: 100%;
+    /*width: 350px;*/
+    background: transparent;
+    border: 0;
+    color: #fff;
+    font-size: 1.3em;
+    padding: 0 0 0 1em;
+    resize: none;
+    transition: background .7s;
+    margin: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    line-height: 2.74725em;
+}
+
+.video-space-header > .content-wrapper > .right-aligned-button-group {
+    display: flex;
+    justify-content: flex-end;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.video-space-header > .content-wrapper > * {
+    margin: auto;
+    height: 100%;
+}
+
+.video-space-header > .content-wrapper .top-bar-button {
+    max-width: 150px;
+    width: 150px;
+    line-height: 3.57143em;
+    box-shadow: -1px 0 0 0 rgba(255, 255, 255, .12);
+    border-left: 1px solid rgba(0, 0, 0, .35);
+    cursor: pointer;
+    text-align: center;
+    font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: 200;
+}
+
+.video-space-header > .content-wrapper .top-bar-button p.desc {
+    margin: 0;
+}
+
+.text > * {
+    margin: 0;
+    display: inline-block;
+}
+
+.text.checked {
+    color: #fff;
+    background: #f74969;
+}
+.text .icon {
+    padding: 0 7px;
+}
+.styled-checkbox input[type=checkbox] {
+    display: none;
+}

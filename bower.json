@@ -22,6 +22,9 @@
     "tests"
   ],
   "dependencies": {
-    "roomrtc": "^0.11.1"
+    "roomrtc": "^0.11.1",
+    "angular-ui-router": "^1.0.3",
+    "jquery": "2.1.1",
+    "font-awesome": "4.1.0"
   }
 }

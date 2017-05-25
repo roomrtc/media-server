@@ -1,0 +1,38 @@
+::-moz-selection {
+    background: #88d5f7;
+    color: #fff;
+}
+::selection {
+    background: #88d5f7;
+    color: #fff;
+}
+body {
+    font: 1em/1.4em 'Gotham Rounded A', 'Gotham Rounded B', Helvetica, Arial, sans-serif;
+    color: #4d5659;
+    background: #fff;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 400;
+    background-position: top center;
+    background-repeat: no-repeat;
+}
+
+.cloud-background {
+    background-image: url("/images/header.png");
+    background-repeat: repeat-x;
+}
+p.guide {
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+.room43.home {
+    padding-top: 6em;
+    text-align: center;
+}
+.room43 input[type=text] {
+    margin-bottom: 0;
+}
+.room43 form {
+    text-align: left;
+}

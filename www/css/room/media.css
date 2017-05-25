@@ -1,0 +1,63 @@
+session.snailroom {
+    padding: 20px;
+}
+
+@media screen and (min-width: 1024px) {
+    .room-copy-description {
+        display: none
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .room-description, .copy-description {
+        display: none
+    }
+}
+
+@media (max-width: 860px) {
+    .admin-panel .body {
+        width: 100% !important
+    }
+}
+
+@media (max-width: 780px) {
+
+    .logo {
+        display: none;
+    }
+    session.snailroom {
+        padding: 10px;
+    }
+
+    .video-space-header > .content-wrapper .copy-button-wrapper {
+        margin-right: 5px;
+        min-width: 35px
+    }
+
+    .video-space-header > .content-wrapper .desc {
+        display: none !important
+    }
+
+    .video-space-header > .content-wrapper .copy-link-text-button {
+        min-width: 0 !important
+    }
+
+    .video-space-header > .content-wrapper .copy-link-text-button .icon {
+        margin-right: 0 !important
+    }
+
+    .video-space-header > .content-wrapper .room-url {
+        max-width: 350px;
+        flex-grow: 1
+    }
+}
+
+@media (max-width: 630px) {
+    .video-space-header {
+        font-size: .8em
+    }
+
+    .top-bar-button.black {
+        max-width: 64px
+    }
+}

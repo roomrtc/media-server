@@ -1,0 +1,51 @@
+<article class="page talk room-wrapper">
+    <session class="top-bar screen-element">
+        <header class="video-space-header">
+            <div class="content-wrapper">
+                <div class="logo"><button type="button" clip-copy="link2Share" class="btn btn-info"><i class="fa fa-copy padding-top"></i>&nbsp; Copy link</button></div>
+                <div class="room-info room-url-wrapper"><textarea ng-mouseover="descriptionHover.room = true" ng-mouseleave="descriptionHover.room = false" readonly="readonly"
+                        click-autoselect class="user-select-enabled room-url">{{link2Share}}</textarea></div>
+                <div class="right-aligned-button-group">
+                    <div class="lock-room top-bar-button">
+                        <div ng-class="{checked: !locked}" unchecked-text="Lock room" checked-text="Room locked" class="text"><i class="icon fa fa-unlock"></i>
+                            <p class="desc"><span>Lock room</span></p>
+                        </div>
+                    </div>
+                    <div class="claim-room top-bar-button">
+                        <div unchecked-text="Lock room" checked-text="Room locked" model="RoomService.isLocked" checked-icon="fa-lock" unchecked-icon="fa-unlock"
+                            isdisabled="{{ isRoomLockDisabled() }}" class="text"><i class="icon fa fa-bullhorn"></i>
+                            <p class="desc"><span>Claim room</span></p>
+                        </div>
+                    </div>
+                    <div ng-click="endCallClick()" class="exit-room top-bar-button">
+                        <a ui-sref="home">
+                            <div class="text"><i class="icon fa fa-sign-out"></i>
+                                <p class="desc"><span>Exit room</span></p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </session>
+    <session class="display screen-element">
+        <div class="videoContainer">
+            <video id="localVideo" class="mirror" style="height: 150px; transform: scaleX(-1);" oncontextmenu="return false;" ng-src="{{localVideo}}"
+                ng-muted="true" resize autoplay="true"></video>
+            <div id="localVolume" class="volumeBar"></div>
+            <div ng-hide="participants &gt; 0" class="message"><span>Waiting for other people</span><span dancing-dots></span></div>
+        </div>
+        <div id="localScreenContainer" class="videoContainer"></div>
+        <div id="remotes">
+            <div class=" videocontainer focusable" ng-repeat="(id, remoteVideo) in remoteVideos">
+                <div class="video">
+                    <video id="{{id}}" ng-src="{{remoteVideo}}" resize autoplay="true" ng-click="handleVideoClick($event)"></video>
+                    <div class="connectioninfo">
+                        <div class="connectionstate"></div>
+                        <div class="connectionhelp"></div>
+                    </div><span class="muted"><i class="ss-icon">volume</i>Muted audio</span><span class="paused"><i class="ss-icon">videocamera </i>Video paused</span></div>
+            </div>
+        </div>
+    </session>
+    <!--session.snailroomscreenshare(room="roomName")-->
+</article>

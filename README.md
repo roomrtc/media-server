@@ -6,8 +6,8 @@ A simple media server for RoomRTC
 
 The program requires the following dependencies (easy to install using `npm`)
 
-* [roomrtc](https://github.com/vunb/roomrtc)
-* [mediasoup](https://github.com/ibc/mediasoup)
+* [roomrtc](https://github.com/vunb/roomrtc) - Framework enables quick development of WebRTC
+* [mediasoup](https://github.com/ibc/mediasoup) - Cutting Edge WebRTC Video Conferencing
 
 Follow these steps to run the server:
 
@@ -22,6 +22,16 @@ Install via npm:
 ```bash
 npm install @roomrtc/mediaserver
 ```
+
+Prior to that, ensure your host satisfies the following **requirements**:
+
+* Node.js >= `v6.9.1`
+* POSIX based operating system (Windows not yet supported)
+* Python 2 (`python2` or `python` command must point to the Python 2 executable)
+* `make`
+* `gcc` and `g++`, or `clang`, with C++11 support
+
+*NOTE*: In Debian and Ubuntu install the `build-essential` package. It includes both make and gcc/g++.
 
 # License
 

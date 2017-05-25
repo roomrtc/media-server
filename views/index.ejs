@@ -1,1 +1,87 @@
-<!-- Free RoomRTC Media Server -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Roomrtc - one click video conversations">
+    <title>Roomrtc - one click video conversations</title>
+    <!-- load app/css -->
+    <link href="/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/css/font.css" rel="stylesheet" type="text/css">
+    <link href="/css/normalize.css" rel="stylesheet" type="text/css">
+    <link href="/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/css/main.css" rel="stylesheet" type="text/css">
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
+    <link href="/css/home/index.css" rel="stylesheet" type="text/css">
+    <link href="/css/home/media.css" rel="stylesheet" type="text/css">
+    <link href="/css/room/index.css" rel="stylesheet" type="text/css">
+    <link href="/css/room/media.css" rel="stylesheet" type="text/css">
+    <link href="/css/room/display.css" rel="stylesheet" type="text/css">
+    <link href="/css/room/input.css" rel="stylesheet" type="text/css">
+    <link href="data:image/png;base64,iVBORw0KGgo=" rel="icon" type="image/png">
+    <!-- load app/lib -->
+    <script src="/lib/eyes.js"></script>
+    <script src="/lib/jquery/dist/jquery.js"></script>
+    <script src="/lib/roomrtc/dist/angular-v1.4.9.js"></script>
+    <script src="/lib/roomrtc/dist/roomrtc.bundle.js"></script>
+    <script src="/lib/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <!-- load app/scripts -->
+    <script src="/js/app.js"></script>
+    <script src="/js/directives/videoControls.js"></script>
+    <script src="/js/services/util.js"></script>
+    <script src="/js/services/fluidGrid.js"></script>
+    <script src="/js/services/soundEffectManager.js"></script>
+    <script src="/js/controllers/homeController.js"></script>
+    <script src="/js/controllers/roomController.js"></script>
+
+    <base href="/">
+</head>
+
+<body ng-app="videoconference" class="landing">
+    <noscript>
+        <p>This page requires JavaScript and a modern browser to function correctly.</p>
+    </noscript>
+
+    <div class="container wrapper" data-ui-view>
+    </div>
+
+    <script type="text/ng-template" id="about.index">
+        <h1>About page</h1>
+        <div class="pages">
+            <ui-view></ui-view>
+        </div>
+        <footer role="contentinfo">
+            <nav>
+                <ul>
+                    <li><a ui-sref="about.team" title="About Team">Team</a></li>
+                    <li><a ui-sref="about.privacy" title="Legal, Privacy, Contact links">Privacy</a></li>
+                    <li><a ui-sref="about.terms" title="Legal, Privacy, Contact links">Terms</a></li>
+                    <li><a href="mailto:vunb@nodejs.vn" title="Email us">Email</a></li>
+                    <li><a href="//twitter.com/nhubaovu" title="Room43 on Twitter">@twitter</a></li>
+                </ul>
+            </nav>
+        </footer>
+    </script>
+    <script type="text/ng-template" id="about.team">
+        <section id="pages">
+            <article role="main" class="page create">
+                <h1><a href="https://twitter.com/nhubaovu">@nhubaovu</a></h1>
+            </article>
+        </section>
+    </script>
+    <script type="text/ng-template" id="styled-checkbox.html">
+        <div ng-class="{'reversed': reversed}" class="styled-checkbox"><input id="{{ id }}" type="checkbox" ng-model="model" ng-disabled="isDisabled=='true'" ng-change="change()">
+            <label
+                for="{{ id }}">
+                <div class="slider">
+                    <div class="text unchecked"><i class="icon fa {{uncheckedIcon }}"></i>
+                        <p ng-i18next="{{ uncheckedText }}" class="desc"></p>
+                    </div>
+                </div>
+                <div class="mask"></div>
+                </label>
+        </div>
+    </script>
+</body>
+
+</html>

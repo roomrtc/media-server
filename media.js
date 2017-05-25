@@ -5,6 +5,10 @@ const RoomrtcServer = require('roomrtc');
 const Peer = require('./peer');
 const logger = require('./logger')('Media Room');
 
+const MAX_BITRATE = config.get('roomrtc.maxBitrate') || 3000000;
+const MIN_BITRATE = Math.min(50000, MAX_BITRATE);
+const BITRATE_FACTOR = 0.75;
+
 /**
  * MediaRoom
  */
@@ -23,8 +27,8 @@ module.exports = class MediaRoom extends RoomrtcServer {
         this.on('leave', this.onClientLeave.bind(this));
         this.on('join', this.onClientJoin.bind(this));
 
-        this.on('message', this.onClientMessage.bind(this));
-        this.on('command', this.onClientCommand.bind(this));
+        this.on('message', this.handleMsgMessage.bind(this));
+        this.on('command', this.handleClientCommand.bind(this));
         // 
         this.logger.info('Config info ', this.config);
 
@@ -154,7 +158,24 @@ module.exports = class MediaRoom extends RoomrtcServer {
                             // this.logger.info('Create room success: ', roomCreated);
                             this.setMediaRoom(roomName, roomCreated);
                             return roomCreated;
-                        });
+                        })
+                        .then((mediaRoom) => {
+                            process.nextTick(() =>
+                            {
+                                mediaRoom.on('newpeer', (peer) =>
+                                {
+                                    this.logger.info(`New peer created --> this._updateMaxBitrate(${roomName})`)
+                                    this._updateMaxBitrate(mediaRoom);
+
+                                    peer.on('close', () =>
+                                    {
+                                        this.logger.info(`peer leave: _updateMaxBitrate(${roomName})`);
+                                        this._updateMaxBitrate(mediaRoom);
+                                    });
+                                });
+                            });
+                            return mediaRoom;
+                        })
                 } else {
                     // this.logger.info('Room created already: ', mediaRoom);
                     return mediaRoom;
@@ -177,11 +198,13 @@ module.exports = class MediaRoom extends RoomrtcServer {
      * @param {Socket} client 
      * @param {Object} msg 
      */
-    onClientMessage(client, msg) {
+    handleMsgMessage(client, msg, cb) {
         this.logger.info('Client send a message: ', client.id, msg && msg.type);
 
         let peer = this.getPeer(client.id);
-        peer.processMessage(msg);
+        if (peer != null) {
+            peer.processMessage(msg);
+        }
     }
 
     /**
@@ -189,9 +212,47 @@ module.exports = class MediaRoom extends RoomrtcServer {
      * @param {Socket} client 
      * @param {Object} cmd 
      */
-    onClientCommand(client, cmd) {
+    handleClientCommand(client, cmd) {
         this.logger.info('Client send a command: ', client.id, cmd && cmd.type);
 
+    }
+
+    /**
+     * Private methods
+     */
+    _updateMaxBitrate(mediaRoom) {
+        if (!mediaRoom || mediaRoom.closed) return;
+
+        this.logger.info('PrevMaxBitrate: ', mediaRoom._maxBitrate);
+        let numPeers = mediaRoom.peers.length;
+        let previousMaxBitrate = mediaRoom._maxBitrate;
+        let newMaxBitrate;
+
+        if (numPeers <= 2) {
+            newMaxBitrate = MAX_BITRATE;
+        } else {
+            newMaxBitrate = Math.round(MAX_BITRATE / ((numPeers - 1) * BITRATE_FACTOR));
+            if (newMaxBitrate < MIN_BITRATE) {
+                newMaxBitrate = MIN_BITRATE;
+            }
+        }
+
+        if (newMaxBitrate === previousMaxBitrate) return;
+
+        // for each peer in room
+        for (let peer of mediaRoom.peers) {
+            if (!peer.capabilities || peer.closed) continue;
+
+            for (let transport of peer.transports) {
+                if (transport.closed) continue;
+
+                transport.setMaxBitrate(newMaxBitrate);
+            }
+        }
+
+        this.logger.info(`_updateMaxBitrate() [num peers:${numPeers}, before:${Math.round(previousMaxBitrate / 1000)}kbps, now:${Math.round(newMaxBitrate / 1000)}kbps]`);
+
+        mediaRoom._maxBitrate = newMaxBitrate;
     }
 
 }
