@@ -23,6 +23,16 @@ Install via npm:
 npm install @roomrtc/mediaserver
 ```
 
+Prior to that, ensure your host satisfies the following **requirements**:
+
+* Node.js >= `v6.9.1`
+* POSIX based operating system (Windows not yet supported)
+* Python 2 (`python2` or `python` command must point to the Python 2 executable)
+* `make`
+* `gcc` and `g++`, or `clang`, with C++11 support
+
+*NOTE*: In Debian and Ubuntu install the `build-essential` package. It includes both make and gcc/g++.
+
 # License
 
 MIT
