@@ -1,16 +1,17 @@
 {
   "name": "@roomrtc/mediaserver",
   "version": "0.11.1",
-  "description": "A simple media server for RoomRTC",
-  "main": "media.js",
+  "description": "Media server for RoomRTC",
+  "main": "main.js",
   "scripts": {
     "test": "node test/start.js | tap-spec",
+    "lint": "eslint -c .eslintrc.js server.js",
     "start": "node server.js",
     "postinstall": "grunt setup",
     "setup": "grunt setup"
   },
   "engines": {
-    "node": "^6.9.1"
+    "node": ">=8.0.0"
   },
   "repository": {
     "type": "git",
