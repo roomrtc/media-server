@@ -6,6 +6,7 @@
   "scripts": {
     "test": "node test/start.js | tap-spec",
     "lint": "eslint -c .eslintrc.js server.js",
+    "lint:fix": "eslint --fix -c .eslintrc.js server.js",
     "start": "node server.js",
     "postinstall": "grunt setup",
     "setup": "grunt setup"
@@ -42,6 +43,7 @@
     "winston": "^2.3.1"
   },
   "devDependencies": {
+    "eslint": "^6.3.0",
     "grunt": "^1.0.1",
     "grunt-contrib-copy": "^1.0.0",
     "supertest": "^2.0.1",
