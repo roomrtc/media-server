@@ -175,8 +175,8 @@ module.exports = {
     'space-before-blocks': 2,
     'space-before-function-paren': [2,
       {
-        anonymous: 'never',
-        named: 'never',
+        anonymous: 'always',
+        named: 'always',
         asyncArrow: 'always'
       }
     ],
