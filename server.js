@@ -16,35 +16,35 @@ app.set('view engine', 'ejs');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
-    extended: true
+  extended: true
 }));
 
 app.use(cookieParser());
 app.use(session({
-    secret: '1234567890',
-    saveUninitialized: true,
-    resave: true
+  secret: '1234567890',
+  saveUninitialized: true,
+  resave: true
 }));
 
 // serve static resources
 app.use(express.static('./www'));
 
-// index page 
+// index page
 app.get('/', function (req, res) {
-    res.render('index');
+  res.render('index');
 });
 // render room
 app.get('/:roomName', function (req, res) {
-    res.render('index');
+  res.render('index');
 });
 
-/// catch 404 and forward to error handler
+// catch 404 and forward to error handler
 app.use(function (req, res, next) {
-    var err = new Error('Not Found: ' + req.url);
-    err.status = 404;
-    next(err);
-});
+  const err = new Error(`Not Found: ${ req.url}`);
 
+  err.status = 404;
+  next(err);
+});
 
 /**
  * Config signaling server;
@@ -58,7 +58,7 @@ app.set('port', port);
 
 media.listen(server);
 server.listen(port, () => {
-    logger.info('Server is running at: ', port);
+  logger.info('Server is running at: ', port);
 });
 
 // Expose RoomMedia Server for testing.
