@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/roomrtc/mediaserver.git"
+    "url": "git+https://github.com/roomrtc/media-server.git"
   },
   "keywords": [
     "media-server",
@@ -26,9 +26,9 @@
   "author": "vunb",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/roomrtc/mediaserver/issues"
+    "url": "https://github.com/roomrtc/media-server/issues"
   },
-  "homepage": "https://github.com/roomrtc/mediaserver#readme",
+  "homepage": "https://github.com/roomrtc/media-server#readme",
   "dependencies": {
     "body-parser": "^1.16.1",
     "config": "^1.25.1",

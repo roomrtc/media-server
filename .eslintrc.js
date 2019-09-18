@@ -24,7 +24,7 @@ module.exports = {
     'arrow-parens': [2, 'always'],
     'arrow-spacing': 2,
     'block-spacing': [2, 'always'],
-    'brace-style': [2, 'allman', {
+    'brace-style': [0, 'allman', {
       allowSingleLine: true
     }],
     'camelcase': 2,
@@ -40,7 +40,7 @@ module.exports = {
     'generator-star-spacing': 2,
     'guard-for-in': 2,
     'indent': ['error', 2],
-    'key-spacing': [1,
+    'key-spacing': [0,
       {
         singleLine: {
           beforeColon: false,
