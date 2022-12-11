@@ -32,7 +32,7 @@
     "config": "^1.25.1",
     "cookie-parser": "^1.4.3",
     "ejs": "^2.5.6",
-    "express": "^4.14.1",
+    "express": "^4.17.3",
     "express-session": "^1.15.1",
     "matchdep": "^2.0.0",
     "mediasoup": "^3.2.5",
